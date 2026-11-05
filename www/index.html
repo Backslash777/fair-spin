@@ -1695,21 +1695,39 @@ function bind(){
 }
 
 // ---------- update check (based on the Arcade Apprentice updater's check side) ----------
-const APP_VERSION = { name: '1.3.0', code: 4 };
+const APP_VERSION = { name: '1.3.1', code: 5 };
+const GITHUB_LATEST = 'https://api.github.com/repos/Backslash777/fair-spin/releases/latest';
 const UPDATE_URL = localStorage.getItem('fairSpin.updateUrl') || 'https://shorethinggames.co.uk/version.json';
 const CHECK_EVERY = 6 * 3600 * 1000;   // at most one check every six hours
 async function checkUpdate(){
   try {
     let info = state.settings.updateCheck || {};
     if (!info.checked || Date.now() - info.checked >= CHECK_EVERY) {
-      const ctl = new AbortController();
-      const timer = setTimeout(() => ctl.abort(), 6000);
-      const r = await fetch(UPDATE_URL, { signal: ctl.signal, cache: 'no-store' });
-      clearTimeout(timer);
-      if (!r.ok) return;
-      const j = await r.json();
-      info = { checked: Date.now(), latest: String(j.version || ''), code: j.versionCode | 0,
-               notes: String(j.notes || '').slice(0, 300), dismissedFor: info.dismissedFor };
+      let next = null;
+      try {
+        // Preferred source: the latest GitHub release (same approach as Arcade Apprentice).
+        const ctl = new AbortController();
+        const timer = setTimeout(() => ctl.abort(), 6000);
+        const r = await fetch(GITHUB_LATEST, { signal: ctl.signal, headers: { 'Accept': 'application/vnd.github+json' } });
+        clearTimeout(timer);
+        if (r.ok) {
+          const rel = await r.json();
+          const body = rel.body || '';
+          const codeMatch = body.match(/versionCode\s*[:=]?\s*(\d+)/i);
+          next = { latest: String(rel.tag_name || '').replace(/^v/i, ''), code: codeMatch ? +codeMatch[1] : 0,
+                   notes: body.replace(/versionCode\s*[:=]?\s*\d+/i, '').slice(0, 300) };
+        }
+      } catch (e) { /* fall through to the website copy */ }
+      if (!next || !next.code) {
+        const ctl = new AbortController();
+        const timer = setTimeout(() => ctl.abort(), 6000);
+        const r = await fetch(UPDATE_URL, { signal: ctl.signal, cache: 'no-store' });
+        clearTimeout(timer);
+        if (!r.ok) return;
+        const j = await r.json();
+        next = { latest: String(j.version || ''), code: j.versionCode | 0, notes: String(j.notes || '').slice(0, 300) };
+      }
+      info = Object.assign({}, next, { checked: Date.now(), dismissedFor: info.dismissedFor });
       state.settings.updateCheck = info; save();
     }
     const code = info.code | 0;
