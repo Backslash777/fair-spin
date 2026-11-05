@@ -153,7 +153,7 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(30px,7vw,46px);l
 .pointer .ft{fill:none;stroke:var(--rim);stroke-width:1;opacity:.45}
 .pointer .band{fill:var(--accent)}
 .pointer .cork{fill:var(--peg);stroke:var(--rim);stroke-width:1.6}
-.hub{position:absolute;left:50%;top:50%;width:31%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:5px solid var(--rim);background:var(--surface);color:var(--ink);font-family:var(--f-display);font-weight:900;font-size:clamp(17px,5.2vw,27px);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.28);transition:transform .15s ease;display:grid;place-items:center;text-align:center;padding:0}
+.hub{position:absolute;left:50%;top:50%;width:31%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:5px solid var(--rim);background:var(--surface);color:var(--ink);font-family:var(--f-display);font-weight:900;font-size:clamp(15px,4.4vw,23px);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.28);transition:transform .15s ease;display:grid;place-items:center;text-align:center;padding:0;white-space:nowrap}
 .hub:hover:not(:disabled){transform:translate(-50%,-50%) scale(1.05)}
 .hub:active:not(:disabled){transform:translate(-50%,-50%) scale(.97)}
 .hub:disabled{cursor:default;color:var(--muted)}
@@ -1557,6 +1557,8 @@ function renderPlayers(){
     <div class="settings">
       <div class="set-row"><span>Dealing</span><div class="seg"><button type="button" data-action="show" data-v="deal" aria-pressed="${state.settings.show === 'deal'}">One by one</button><button type="button" data-action="show" data-v="quick" aria-pressed="${state.settings.show === 'quick'}">All at once</button></div></div>
       <div class="set-row"><span>Sound</span><div class="seg"><button type="button" data-action="sound-set" data-v="1" aria-pressed="${state.settings.sound}">On</button><button type="button" data-action="sound-set" data-v="0" aria-pressed="${!state.settings.sound}">Off</button></div></div>
+      <div class="set-row"><span>Updates</span><button type="button" class="btn-s" data-action="check-update" ${dis}>Check for update</button></div>
+      <p class="note" id="updateNote">Fair Spin checks for updates automatically when it opens (at most every 6 hours).</p>
     </div>`;
 }
 function renderAll(){
@@ -1604,6 +1606,7 @@ function bind(){
       state.settings.chosen = true; pickerOpen = false; clearAsk = false; save(); renderAll(); animateGameSwitch(); scrollTo({ top: 0 }); return;
     }
     if (a === 'same-game') { $('#hello').hidden = true; return; }
+    if (a === 'check-update') { checkUpdate(true); return; }
     if (a === 'upd-later') {
       const uc = state.settings.updateCheck || {};
       uc.dismissedFor = uc.code | 0; state.settings.updateCheck = uc; save();
@@ -1695,14 +1698,16 @@ function bind(){
 }
 
 // ---------- update check (based on the Arcade Apprentice updater's check side) ----------
-const APP_VERSION = { name: '1.3.1', code: 5 };
+const APP_VERSION = { name: '1.3.2', code: 6 };
 const GITHUB_LATEST = 'https://api.github.com/repos/Backslash777/fair-spin/releases/latest';
 const UPDATE_URL = localStorage.getItem('fairSpin.updateUrl') || 'https://shorethinggames.co.uk/version.json';
 const CHECK_EVERY = 6 * 3600 * 1000;   // at most one check every six hours
-async function checkUpdate(){
+async function checkUpdate(force){
+  const noteEl = $('#updateNote');
   try {
     let info = state.settings.updateCheck || {};
-    if (!info.checked || Date.now() - info.checked >= CHECK_EVERY) {
+    if (force || !info.checked || Date.now() - info.checked >= CHECK_EVERY) {
+      if (noteEl) noteEl.textContent = 'Checking for updates…';
       let next = null;
       try {
         // Preferred source: the latest GitHub release (same approach as Arcade Apprentice).
@@ -1734,8 +1739,12 @@ async function checkUpdate(){
     if (code > APP_VERSION.code && info.dismissedFor !== code) {
       $('#updText').textContent = `Fair Spin ${info.latest} is out — you have ${APP_VERSION.name}. ${info.notes}`;
       $('#updbar').hidden = false;
-    }
-  } catch (e) { /* offline, no permission or a bad response: stay quiet and carry on playing */ }
+      if (noteEl) noteEl.textContent = `Fair Spin ${info.latest} is available.`;
+    } else if (noteEl) noteEl.textContent = `You're up to date — Fair Spin ${APP_VERSION.name}.`;
+  } catch (e) {
+    if (noteEl) noteEl.textContent = "Couldn't check just now. Try again when you're online.";
+    /* offline, no permission or a bad response: stay quiet and carry on playing */
+  }
 }
 
 // ---------- start ----------

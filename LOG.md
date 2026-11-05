@@ -1,5 +1,12 @@
 # Fair Spin Android project log
 
+## 2026-11-05 — version 1.3.1 (version code 5)
+
+- Fixed the hub text alignment Jonny spotted on his phone: `.hub` now uses `display:grid;place-items:center;text-align:center;padding:0` instead of relying on the browser's default button alignment.
+- Source is now on GitHub: https://github.com/Backslash777/fair-spin (created and pushed with a classic PAT, stored in the workspace credentials file).
+- Update checker now reads the latest GitHub release first (`versionCode:` line in the release body), with `shorethinggames.co.uk/version.json` as a fallback. Same 6-hour cache and quiet-offline behaviour.
+- Signed APK + AAB built (versionCode 5). GitHub release v1.3.1 published with the APK attached via the API. All copies refreshed: project, G:, D:, and the live download on the STG site. STG homepage and version.json bumped to 1.3.1.
+
 ## 2026-11-04 — version 1.3.0 (version code 4)
 
 - Update checker added, based on the check side of the Arcade Apprentice updater (`files/updater.py` in `C:\0AI\Machine Learning`): at most one check every 6 hours, compares `versionCode` against `https://shorethinggames.co.uk/version.json`, and shows a dismissible banner ("Get the update" opens the STG site; "Not now" remembers that version). Fails quietly offline and never blocks play. `fairSpin.updateUrl` in localStorage can override the URL for testing.
