@@ -5,22 +5,22 @@ PROJECT
 fair-spin-android
 
 RELEASE
-Version: 1.3.2
-Version code: 6
+Version: 1.3.3
+Version code: 7
 
 SIGNED APK
 File: fair-spin.apk
-Size: 5,148,308 bytes
-SHA-256: d45b26da00a40538f0d8e4ba5e641998dd781b1947a0154d10dc4699eda4e22c
+Size: 5,148,392 bytes
+SHA-256: 716c3803b56a021a80108a06013baae17a9afbd2a479abce4fc28854dbaab8df
 
 SIGNED AAB
 File: fair-spin.aab
-Size: 4,966,202 bytes
-SHA-256: a21231876f156ac683ba804147660c30efa358d4879fd9ef9ccfd162b786fa41
+Size: 4,966,307 bytes
+SHA-256: fc49df75e8fd555e9900a5a8de1f47fc361b02a6608560d8b5a592984750d257
 
 GITHUB
 Source: https://github.com/Backslash777/fair-spin
-Release with APK: https://github.com/Backslash777/fair-spin/releases/tag/v1.3.2
+Release with APK: https://github.com/Backslash777/fair-spin/releases/tag/v1.3.3
 
 SIGNING CERTIFICATE (PUBLIC FINGERPRINT)
 SHA-256: 889708b6db76ae922133d1bed69a0e2de117162de10db5e1fe658e92da22aa8a

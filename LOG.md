@@ -1,5 +1,25 @@
 # Fair Spin Android project log
 
+## OPEN ISSUES for 2026-11-06
+
+### 1. Hub: prefer black, and SPIN text still off-centre
+
+- Jonny prefers a BLACK hub (not the current white/surface one). Change `.hub` to a dark background (e.g. `var(--rim)`) with light text (`var(--surface)`), which also matches the wheel rim.
+- SPIN text is still right-shifted on his phone (screenshots 2026-11-05 ~18:40–18:43, version 1.3.2). Previous desktop-only fixes (grid centring, smaller font) did NOT solve it on his device. Inspect the real rendered DOM/computed styles on his phone before changing more CSS. Candidate robust fixes: absolutely-centred label with `position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)` on the text itself, or an SVG/canvas label. If the text is too wide for the hub on his device, shrink the font further or let the hub grow.
+
+### 2. Update prompt not appearing on 1.3.2 (1.3.3 was live)
+
+- Jonny had 1.3.2 installed and 1.3.3 was published (~18:40 on 2026-11-05), but no update banner appeared on launch. Expected: banner for 1.3.3, or at least a result from the manual "Check for update" button in settings.
+- Debug tomorrow, in order: (a) ask what the manual Check for update button reports — that forces a fresh fetch; (b) check whether the 6-hour cache simply hadn't expired yet (the banner only refetches after 6h); (c) test the GitHub API fetch from an Android WebView (CORS is `*` there, should work); (d) test the version.json fallback — Hostinger may not send `Access-Control-Allow-Origin`, so a cross-origin fetch from the app's WebView would fail silently (caught and swallowed). If so, add `Access-Control-Allow-Origin: *` to the site via .htaccess, or proxy the check through the same origin.
+- Do not ship another update until the banner is proven to fire on his actual phone.
+
+
+
+## 2026-11-05 — version 1.3.3 (version code 7)
+
+- Added an Ideas & bugfixes forum link in settings, so users can report problems or suggest features from inside the app.
+- Released partly to prove the update chain end to end: anyone on 1.3.2 should see the update banner on next launch (or via Check for update). No notification is expected when already on the latest version.
+
 ## 2026-11-05 — version 1.3.2 (version code 6)
 
 - Hub centring hardened: explicit grid centring plus a smaller font clamp and `white-space:nowrap`, so SPIN sits inside the hub even with a fallback font. Verified visually at 390px width.
