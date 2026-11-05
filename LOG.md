@@ -1,5 +1,13 @@
 # Fair Spin Android project log
 
+## 2026-11-05 — version 1.3.2 (version code 6)
+
+- Hub centring hardened: explicit grid centring plus a smaller font clamp and `white-space:nowrap`, so SPIN sits inside the hub even with a fallback font. Verified visually at 390px width.
+- Added a manual "Check for update" button in Players/settings with a result note, alongside the automatic check on launch (at most every 6 hours). Auto-check behaviour confirmed unchanged.
+- Partnership tables verified with injected 5-a-side football rounds: all pairs within a team are counted correctly, not only doubles. No code change needed; Jonny's report was from the older version on his phone.
+- STG homepage now links to the GitHub release as a download source, alongside the direct APK and browser play. Homepage and version.json bumped to 1.3.2.
+- Signed APK + AAB built (versionCode 6), GitHub release v1.3.2 published with the APK, all copies refreshed (project, G:, D:, live download). Source pushed to GitHub.
+
 ## 2026-11-05 — version 1.3.1 (version code 5)
 
 - Fixed the hub text alignment Jonny spotted on his phone: `.hub` now uses `display:grid;place-items:center;text-align:center;padding:0` instead of relying on the browser's default button alignment.
