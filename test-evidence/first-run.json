@@ -1,0 +1,17 @@
+{
+  "apk": "C:\\Users\\terri\\My Drive\\Personal\\0AI\\badminton\\Fair Spin\\fair-spin-android\\test-evidence\\first-run-artifact\\app-debug.apk",
+  "source_apk": "C:\\Users\\terri\\My Drive\\Personal\\0AI\\badminton\\Fair Spin\\fair-spin-android\\android\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+  "sha256": "f602f099ef618b87bd4348ecc39729673286033bba5e34461e1ea9f490dded45",
+  "package": "uk.co.arcadeapprentice.fairspin",
+  "serial": "emulator-5554",
+  "component": "uk.co.arcadeapprentice.fairspin/.MainActivity",
+  "launch_output": "Starting: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=uk.co.arcadeapprentice.fairspin/.MainActivity }\nStatus: ok\nLaunchState: COLD\nActivity: uk.co.arcadeapprentice.fairspin/.MainActivity\nTotalTime: 2359\nWaitTime: 2395\nComplete\n",
+  "launchVerification": {
+    "status": "wait-confirmed"
+  },
+  "screenshot": "C:\\Users\\terri\\My Drive\\Personal\\0AI\\badminton\\Fair Spin\\fair-spin-android\\test-evidence\\first-run.png",
+  "ui_tree": "captured",
+  "capturePhase": "after-initial-launch-before-preview-or-native-fallback",
+  "rendering": "unverified",
+  "interaction": "unverified"
+}

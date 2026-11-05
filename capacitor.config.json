@@ -1,0 +1,18 @@
+{
+  "appId": "uk.co.arcadeapprentice.fairspin",
+  "appName": "Fair Spin",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#ECEFF1",
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "launchShowDuration": 350,
+      "backgroundColor": "#2C7A5A",
+      "androidSplashResourceName": "splash",
+      "showSpinner": false
+    }
+  }
+}

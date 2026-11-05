@@ -1,0 +1,12 @@
+node_modules/
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+*.jks
+*.keystore
+.DS_Store
+/fair-spin.apk
+/fair-spin.aab
+/fair-spin-1.1.0-backup.apk
+/fair-spin-1.1.0-backup.aab

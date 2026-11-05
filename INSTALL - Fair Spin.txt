@@ -1,0 +1,29 @@
+FAIR SPIN 1.1.0 FOR ANDROID
+===========================
+
+Install on a phone
+------------------
+1. Copy fair-spin.apk to the Android phone using Google Drive, USB, email or another file-transfer method.
+2. On the phone, open Files (or Downloads) and tap fair-spin.apk.
+3. If Android asks for permission, choose Settings, then allow "Install unknown apps" for Files, Downloads or the app you used to open the APK.
+4. Go back, tap Install, then Open.
+
+Fair Spin needs Android 7.0 or newer. It works fully offline after installation.
+
+Installing an update later
+--------------------------
+Install the newer APK over the existing app. Do not uninstall first, because uninstalling removes the app's saved players, settings and history. Updates must use the same signing key.
+
+Files
+-----
+fair-spin.apk  - install directly on an Android phone
+fair-spin.aab  - upload to Google Play later; do not install this file directly
+
+Signing key
+-----------
+The upload key and its passwords are in the sibling folder:
+Fair Spin keystore - KEEP SAFE
+
+Back up that whole folder privately and do not share it. The same upload key is needed to sign future updates.
+
+© 2026 Jonathan Terrington
