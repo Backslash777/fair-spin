@@ -157,9 +157,8 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(30px,7vw,46px);l
 .pointer .ft{fill:none;stroke:var(--rim);stroke-width:1;opacity:.45}
 .pointer .band{fill:var(--accent)}
 .pointer .cork{fill:var(--peg);stroke:var(--rim);stroke-width:1.6}
-.hub{position:absolute;left:50%;top:50%;width:31%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:5px solid var(--rim);background:var(--rim);color:var(--surface);font-family:var(--f-display);font-weight:900;font-size:clamp(15px,4.4vw,23px);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.28);transition:transform .15s ease;display:grid;place-items:center;text-align:center;padding:0;white-space:nowrap}
-.hub svg{width:74%;height:74%;display:block}
-.hub svg text{fill:#FFFFFF;font-family:var(--f-display);font-weight:900;font-size:30px;letter-spacing:.06em}
+.hub{position:absolute;left:50%;top:50%;width:31%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:0;background:transparent;color:var(--surface);font-family:var(--f-display);font-weight:900;font-size:clamp(15px,4.4vw,23px);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.28);transition:transform .15s ease;display:grid;place-items:center;text-align:center;padding:0;white-space:nowrap;overflow:hidden}
+.hub img{width:100%;height:100%;display:block;border-radius:50%;object-fit:cover}
 .hub:hover:not(:disabled){transform:translate(-50%,-50%) scale(1.05)}
 .hub:active:not(:disabled){transform:translate(-50%,-50%) scale(.97)}
 .hub:disabled{cursor:default;color:var(--muted)}
@@ -418,7 +417,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
           <path class="cork" d="M13 38 H27 V40 A7 7 0 0 1 13 40 Z"/>
         </svg>
         <canvas id="wheelCanvas" aria-hidden="true"></canvas>
-        <button class="hub" id="hubBtn" type="button" data-action="spin" aria-label="Spin the wheel"><svg viewBox="0 0 100 100" aria-hidden="true"><text x="50" y="50" text-anchor="middle" dominant-baseline="central">SPIN</text></svg></button>
+        <button class="hub" id="hubBtn" type="button" data-action="spin" aria-label="Spin the wheel"><img src="hub-spin.png" alt=""></button>
       </div>
       <button class="wheel-side new" id="newWeekBtn" type="button" data-action="new-week" aria-label="Start a new week and reset tonight's partnership statistics">
         <span>New Week</span><small>Keep totals</small>
@@ -1711,7 +1710,7 @@ function bind(){
 }
 
 // ---------- update check (based on the Arcade Apprentice updater's check side) ----------
-const APP_VERSION = { name: '1.3.6', code: 10 };
+const APP_VERSION = { name: '1.3.7', code: 11 };
 const GITHUB_LATEST = 'https://api.github.com/repos/Backslash777/fair-spin/releases/latest';
 const UPDATE_URL = localStorage.getItem('fairSpin.updateUrl') || 'https://shorethinggames.co.uk/version.json';
 const CHECK_EVERY = 6 * 3600 * 1000;   // at most one check every six hours

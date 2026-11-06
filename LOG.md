@@ -1,6 +1,11 @@
 # Fair Spin Android project log
 
+## 2026-11-06 — version 1.3.6 (version code 10)
+
+- The app now checks for updates on EVERY launch (force fetch at start), not just every 6 hours. The settings note says so. Released on GitHub and the STG site.
+
 ## 2026-11-06 — version 1.3.5 (version code 9)
+
 
 - Jonny called the 1.3.4 graphic shit (dark text on a dark hub in dark mode): the SVG text used `var(--surface)`, which goes dark in dark mode. Fixed to always-white `fill:#FFFFFF` on the black hub in both themes.
 - Added a light/dark theme toggle above Total Games (mirrors the coffee cup on the right). Sun/moon icon flips, choice saved in `settings.theme` ('light'/'dark', system default when unset). Wheel redraws on change.
