@@ -1,5 +1,12 @@
 # Fair Spin Android project log
 
+## 2026-11-06 — version 1.3.5 (version code 9)
+
+- Jonny called the 1.3.4 graphic shit (dark text on a dark hub in dark mode): the SVG text used `var(--surface)`, which goes dark in dark mode. Fixed to always-white `fill:#FFFFFF` on the black hub in both themes.
+- Added a light/dark theme toggle above Total Games (mirrors the coffee cup on the right). Sun/moon icon flips, choice saved in `settings.theme` ('light'/'dark', system default when unset). Wheel redraws on change.
+- VERIFIED ON THE EMULATOR BEFORE RELEASE (Jonny's rule now): light mode white SPIN on black hub, dark mode white SPIN visible on dark hub, toggle flips the whole app and the icon. Screenshots in test-evidence/v1-3-5-*.png.
+- Released 1.3.5 on GitHub and the STG site; version.json and homepage updated. G:/D: still offline.
+
 ## 2026-11-05 (late) — version 1.3.4 (version code 8)
 
 - Jonny's plan implemented: black hub (`var(--rim)` background) with SPIN drawn as a centred SVG `<text>` at x=50/y=50 with `text-anchor:middle` and `dominant-baseline:central` — coordinates, not text alignment, so it cannot drift on any device. Verified visually on the emulator. COFFEE caption removed (cup alone).
