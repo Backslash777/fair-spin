@@ -1,17 +1,19 @@
 # Fair Spin Android project log
 
-## OPEN ISSUES for 2026-11-06
+## 2026-11-05 (late) — version 1.3.4 (version code 8)
 
-### 1. Hub: prefer black, and SPIN text still off-centre
+- Jonny's plan implemented: black hub (`var(--rim)` background) with SPIN drawn as a centred SVG `<text>` at x=50/y=50 with `text-anchor:middle` and `dominant-baseline:central` — coordinates, not text alignment, so it cannot drift on any device. Verified visually on the emulator. COFFEE caption removed (cup alone).
+- Footer under the copyright now has the version number, a link to shorethinggames.co.uk, and a Check for update button (in addition to the settings one).
+- Update-prompt debugging: `Access-Control-Allow-Origin: *` added to the STG site via `.htaccess` so the version.json fallback works cross-origin from the WebView. The manual check on the emulator correctly reported "up to date" on 1.3.3, then "Fair Spin 1.3.4 is available" once 1.3.4 was published, and the banner appeared with release notes.
+- PROCESS LESSON: an earlier 1.3.4 release was published by mistake with the 1.3.3 APK (built but not rebuilt after the hub edits). Caught on the emulator and re-uploaded the correct build everywhere. The release now contains the true 1.3.4 (code 8, SVG hub). Always build BEFORE publishing, and verify with aapt + an emulator install.
+- G: and D: were offline (unmounted) at release time; the APK copies there still need refreshing when the drives are back.
 
-- Jonny prefers a BLACK hub (not the current white/surface one). Change `.hub` to a dark background (e.g. `var(--rim)`) with light text (`var(--surface)`), which also matches the wheel rim.
-- SPIN text is still right-shifted on his phone (screenshots 2026-11-05 ~18:40–18:43, version 1.3.2). Previous desktop-only fixes (grid centring, smaller font) did NOT solve it on his device. Inspect the real rendered DOM/computed styles on his phone before changing more CSS. Candidate robust fixes: absolutely-centred label with `position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)` on the text itself, or an SVG/canvas label. If the text is too wide for the hub on his device, shrink the font further or let the hub grow.
 
-### 2. Update prompt not appearing on 1.3.2 (1.3.3 was live)
 
-- Jonny had 1.3.2 installed and 1.3.3 was published (~18:40 on 2026-11-05), but no update banner appeared on launch. Expected: banner for 1.3.3, or at least a result from the manual "Check for update" button in settings.
-- Debug tomorrow, in order: (a) ask what the manual Check for update button reports — that forces a fresh fetch; (b) check whether the 6-hour cache simply hadn't expired yet (the banner only refetches after 6h); (c) test the GitHub API fetch from an Android WebView (CORS is `*` there, should work); (d) test the version.json fallback — Hostinger may not send `Access-Control-Allow-Origin`, so a cross-origin fetch from the app's WebView would fail silently (caught and swallowed). If so, add `Access-Control-Allow-Origin: *` to the site via .htaccess, or proxy the check through the same origin.
-- Do not ship another update until the banner is proven to fire on his actual phone.
+## Previously open issues — RESOLVED in 1.3.4
+
+- Black hub: done (dark hub with centred SVG SPIN, verified on the emulator).
+- Update prompt not appearing: the checker was actually working — nothing newer was published at the time. After publishing 1.3.4, the emulator reported "Fair Spin 1.3.4 is available" and the banner appeared. CORS header added to the site for the version.json fallback.
 
 
 

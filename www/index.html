@@ -115,6 +115,10 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(30px,7vw,46px);l
 .coffee-cup:active .cup{transform:scale(.94)}
 .coffee-cup .cup svg{width:34px;height:34px}
 .coffee-cup small{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.theme-toggle{position:absolute;left:6px;top:calc(50% - 138px);z-index:4;width:56px;height:56px;border-radius:50%;background:var(--surface);border:1.5px solid var(--hair);box-shadow:var(--shadow);display:grid;place-items:center;cursor:pointer;transition:transform .14s ease-out}
+.theme-toggle:hover{transform:scale(1.07)}
+.theme-toggle:active{transform:scale(.94)}
+.theme-toggle svg{width:28px;height:28px;stroke:var(--ink);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .updbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:75;max-width:94vw;width:420px;background:var(--surface);border:1.5px solid var(--hair);border-radius:14px;box-shadow:var(--shadow);padding:12px 14px;display:grid;gap:10px}
 .updbar p{margin:0;font-size:14.5px;line-height:1.4}
 .updbar .row{display:flex;gap:10px;flex-wrap:wrap}
@@ -155,7 +159,7 @@ h1{font-family:var(--f-display);font-weight:900;font-size:clamp(30px,7vw,46px);l
 .pointer .cork{fill:var(--peg);stroke:var(--rim);stroke-width:1.6}
 .hub{position:absolute;left:50%;top:50%;width:31%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;border:5px solid var(--rim);background:var(--rim);color:var(--surface);font-family:var(--f-display);font-weight:900;font-size:clamp(15px,4.4vw,23px);letter-spacing:.06em;text-transform:uppercase;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.28);transition:transform .15s ease;display:grid;place-items:center;text-align:center;padding:0;white-space:nowrap}
 .hub svg{width:74%;height:74%;display:block}
-.hub svg text{fill:var(--surface);font-family:var(--f-display);font-weight:900;font-size:30px;letter-spacing:.06em}
+.hub svg text{fill:#FFFFFF;font-family:var(--f-display);font-weight:900;font-size:30px;letter-spacing:.06em}
 .hub:hover:not(:disabled){transform:translate(-50%,-50%) scale(1.05)}
 .hub:active:not(:disabled){transform:translate(-50%,-50%) scale(.97)}
 .hub:disabled{cursor:default;color:var(--muted)}
@@ -405,6 +409,7 @@ button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
       <button class="wheel-side total" id="totalGamesBtn" type="button" data-action="total-games" aria-label="Open total games and partnership statistics">
         <span>Total Games</span><small id="totalGamesCount">0 rounds</small>
       </button>
+      <button class="theme-toggle" id="themeBtn" type="button" data-action="theme" aria-label="Switch between light and dark mode"></button>
       <div class="wheel" id="wheel">
         <svg class="pointer" id="pointer" viewBox="0 0 40 54" aria-hidden="true">
           <path class="sk" d="M3 3 H37 L26 34 H14 Z"/>
@@ -1610,6 +1615,11 @@ function bind(){
     }
     if (a === 'same-game') { $('#hello').hidden = true; return; }
     if (a === 'check-update') { checkUpdate(true); return; }
+    if (a === 'theme') {
+      const cur = state.settings.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      state.settings.theme = cur === 'dark' ? 'light' : 'dark';
+      save(); renderTheme(); return;
+    }
     if (a === 'upd-later') {
       const uc = state.settings.updateCheck || {};
       uc.dismissedFor = uc.code | 0; state.settings.updateCheck = uc; save();
@@ -1701,7 +1711,7 @@ function bind(){
 }
 
 // ---------- update check (based on the Arcade Apprentice updater's check side) ----------
-const APP_VERSION = { name: '1.3.4', code: 8 };
+const APP_VERSION = { name: '1.3.5', code: 9 };
 const GITHUB_LATEST = 'https://api.github.com/repos/Backslash777/fair-spin/releases/latest';
 const UPDATE_URL = localStorage.getItem('fairSpin.updateUrl') || 'https://shorethinggames.co.uk/version.json';
 const CHECK_EVERY = 6 * 3600 * 1000;   // at most one check every six hours
@@ -1750,6 +1760,17 @@ async function checkUpdate(force){
   }
 }
 
+// ---------- theme toggle ----------
+function renderTheme(){
+  const t = state.settings.theme || '';
+  document.documentElement.dataset.theme = t;
+  const dark = t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches);
+  $('#themeBtn').innerHTML = dark
+    ? '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>'
+    : '<svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  $('#themeBtn').setAttribute('aria-label', dark ? 'Switch to light mode' : 'Switch to dark mode');
+}
+
 // ---------- start ----------
 function start(){
   state = load() || freshState();
@@ -1772,6 +1793,7 @@ function start(){
   if (mqDark.addEventListener) mqDark.addEventListener('change', drawWheel);
   new MutationObserver(drawWheel).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   $('#versionName').textContent = 'v' + APP_VERSION.name;
+  renderTheme();
   checkUpdate();
 }
 start();
